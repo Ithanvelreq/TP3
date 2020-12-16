@@ -45,6 +45,9 @@ public:
 
 	void Afficher() const;
 	//Affichage de la colection de trajets
+	
+	void Ecrire(ofstream & os, const char * typetrajet, const char * vd, const char * va) const;
+	//Ecriture dans un fichier tous les trajets qui verifient les contraintes dans typetrajet vd va
 
 //-------------------------------------------- Constructeurs - destructeur
 	Catalogue();

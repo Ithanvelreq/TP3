@@ -1,64 +1,143 @@
 #include <iostream>
 #include <cstring>
+#include <fstream>
 #include "LinkedList.h"
 #include "ListOrd.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
 #include "Catalogue.h"
+#define TAILLE 20
 using namespace std;
 
 int main(){
-	char * command = new char[20];
-	char * va = new char[20];
-	char * vd = new char[20];
-	char * mt = new char[20];
+	char * command = new char[TAILLE];
+	char * va = new char[TAILLE];
+	char * vd = new char[TAILLE];
+	char * mt = new char[TAILLE];
+	char * fichier = new char [TAILLE];
+	char * typetraj = new char [TAILLE];
+	char * vaselected = new char [TAILLE];
+	char * vdselected = new char [TAILLE];
+	bool load = false;
+	bool addts = true;
+	bool addtc = true;
+	bool selva = false;
+	bool selvd = false;
+	ifstream is;
+	ofstream os;
 	Catalogue catalog;
-	cin.getline(command, 20);
+	cin.getline(command, TAILLE);
 	while(strcmp(command, "bye") != 0){
 		if(!strcmp(command, "ajouts")){
 			//Ajout d un trajet simple
-			cin.getline(vd, 20, ' ');
-			cin.getline(va, 20, ' ');
-			cin.getline(mt, 20);
-			TrajetSimple * traj = new TrajetSimple(vd, va, mt);
-			catalog.Ajouter(traj);
-			cout << "Trajet simple de " << vd << " a " << va << " en " << mt <<" ajoute"<< endl;
+			if(load){
+				is.getline(vd, TAILLE, ' ');
+				is.getline(va, TAILLE, ' ');
+				is.getline(mt, TAILLE);
+			}else{
+				cin.getline(vd, TAILLE, ' ');
+				cin.getline(va, TAILLE, ' ');
+				cin.getline(mt, TAILLE);
+			}
+			if(addts && (!strcmp(vaselected, va) || !selva) && (!strcmp(vdselected, vd) || !selvd)){
+				TrajetSimple * traj = new TrajetSimple(vd, va, mt);
+				catalog.Ajouter(traj);
+				cout << "Trajet simple ajoute: ";
+				traj ->Afficher();
+			}
 		}else if(!strcmp(command, "ajoutc")){
 			//Ajout d un trajet compose
-			ListOrd* ll = new ListOrd();
-			cout << "Trajet composee";	
+			ListOrd *ll;
+			if(addtc){
+				ll = new ListOrd();
+			}	
 			while(strcmp(command, "fini") != 0){
-				cin.getline(vd, 20, ' ');
-				cin.getline(va, 20, ' ');
-				cin.getline(mt, 20, ' ');
-				TrajetSimple* traj = new TrajetSimple(vd, va, mt);
-				ll->Ajouter(traj);
-				cin.getline(command, 20);
-				cout << " de " << vd << " a " << va << " en " << mt << " -";
+				if(load){
+					is.getline(vd, TAILLE, ' ');
+                                        is.getline(va, TAILLE, ' ');
+					is.getline(mt, TAILLE, ' ');
+					is.getline(command, TAILLE);
+				}else{
+					cin.getline(vd, TAILLE, ' ');
+					cin.getline(va, TAILLE, ' ');
+					cin.getline(mt, TAILLE, ' ');
+					cin.getline(command, TAILLE);
+				}
+				if(addtc){
+					TrajetSimple* traj = new TrajetSimple(vd, va, mt);
+					ll->Ajouter(traj);
+				}
 			}
-			cout<<" ajoute"<<endl;
-			TrajetCompose * tc = new TrajetCompose(ll);
-			catalog.Ajouter(tc);
+			if(addtc){
+				TrajetCompose * tc = new TrajetCompose(ll);
+				if((!strcmp(vaselected, tc->getterVilleArrivee()) || !selva) && (!strcmp(vdselected, tc->getterVilleDepart()) || !selvd)){
+					cout << "Trajet compose ajoute: ";
+					tc -> Afficher();
+					catalog.Ajouter(tc);
+				}else{
+					delete tc;
+				}
+			}
 		}else if(!strcmp(command, "afficher")){
 			//Affichage du catalogue
 			catalog.Afficher();
 		}else if(!strcmp(command, "recherches")){
 			//recherche simple dans le catalogue
-			cin.getline(vd, 20, ' ');
-			cin.getline(va, 20);
+			cin.getline(vd, TAILLE, ' ');
+			cin.getline(va, TAILLE);
 			cout << "Les resultats de la recherche simple sont"<<endl;
 			catalog.Recherches(vd, va);
 		}else if(!strcmp(command, "recherchea")){
 			//recherche avancee dans le catalogue
-			cin.getline(vd, 20, ' ');
-			cin.getline(va, 20);
+			cin.getline(vd, TAILLE, ' ');
+			cin.getline(va, TAILLE);
 			cout << "Les resultats de la recherche avance sont"<<endl;
 			catalog.Recherchea(vd, va);
+		}else if(!strcmp(command, "load")){
+			cin.getline(fichier, TAILLE, ' ');
+			cin.getline(typetraj, TAILLE, ' ');
+			cin.getline(vdselected, TAILLE, ' ');
+			cin.getline(vaselected, TAILLE);
+			load = true;
+			is.open(fichier);
+			if(!strcmp(typetraj, "TC")){
+				addts = false;
+			}else if(!strcmp(typetraj, "TS")){
+				addtc = false;
+			}
+			if(strcmp(vdselected, "*")!=0){
+				selvd = true;
+			}
+			if(strcmp(vaselected, "*")!=0){
+				selva = true;
+			}
+		}else if(!strcmp(command, "save")){
+			cin.getline(fichier, TAILLE, ' ');
+			cin.getline(typetraj, TAILLE, ' ');
+			cin.getline(vdselected, TAILLE, ' ');
+			cin.getline(vaselected, TAILLE);
+			os.open(fichier);
+			catalog.Ecrire(os, typetraj, vdselected, vaselected);
+			os.close();
 		}
-		cin.getline(command, 20, '\n');
+		if(is.peek() == EOF){
+			load = false;
+			addtc = true;
+			addts = true;
+			is.close();
+		}
+		if(load){
+			is.getline(command, TAILLE); 
+		}else{
+			cin.getline(command, TAILLE);
+		}
 	}
 	delete [] command;
 	delete [] va;
 	delete [] vd;
 	delete [] mt;
+	delete [] fichier;
+	delete [] typetraj;
+	delete [] vaselected;
+	delete [] vdselected;
 }
