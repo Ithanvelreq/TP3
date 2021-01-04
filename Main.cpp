@@ -98,18 +98,23 @@ int main(){
 			cin.getline(typetraj, TAILLE, ' ');
 			cin.getline(vdselected, TAILLE, ' ');
 			cin.getline(vaselected, TAILLE);
-			load = true;
 			is.open(fichier);
-			if(!strcmp(typetraj, "TC")){
-				addts = false;
-			}else if(!strcmp(typetraj, "TS")){
-				addtc = false;
-			}
-			if(strcmp(vdselected, "*")!=0){
-				selvd = true;
-			}
-			if(strcmp(vaselected, "*")!=0){
-				selva = true;
+			if(is.is_open()){
+				load = true;
+			
+				if(!strcmp(typetraj, "TC")){
+					addts = false;
+				}else if(!strcmp(typetraj, "TS")){
+					addtc = false;
+				}
+				if(strcmp(vdselected, "*")!=0){
+					selvd = true;
+				}
+				if(strcmp(vaselected, "*")!=0){
+					selva = true;
+				}
+			}else{
+				cout << "le fichier n'existe pas, veuillez saisir un fichier valide" << endl;
 			}
 		}else if(!strcmp(command, "save")){
 			cin.getline(fichier, TAILLE, ' ');
