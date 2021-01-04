@@ -114,7 +114,7 @@ int main(){
 					selva = true;
 				}
 			}else{
-				cout << "le fichier n'existe pas, veuillez saisir un fichier valide" << endl;
+				cout << "il y a eu une erreur pendant l'ouverture du fichier, veuillez ressayer a nouveau" << endl;
 			}
 		}else if(!strcmp(command, "save")){
 			cin.getline(fichier, TAILLE, ' ');
@@ -122,7 +122,11 @@ int main(){
 			cin.getline(vdselected, TAILLE, ' ');
 			cin.getline(vaselected, TAILLE);
 			os.open(fichier);
-			catalog.Ecrire(os, typetraj, vdselected, vaselected);
+			if(os.is_open()){
+				catalog.Ecrire(os, typetraj, vdselected, vaselected);
+			}else{
+				cout << "il y a eu une erreur pendant l'ouverture du fichier, veuillez ressayer a nouveau" << endl;
+			}
 			os.close();
 		}
 		if(is.peek() == EOF){
