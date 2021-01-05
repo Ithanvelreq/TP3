@@ -14,6 +14,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "ListOrd.h"
 #include "Trajet.h"
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -35,6 +36,9 @@ public:
 
     void Afficher (const char * mess = "TC") const;
     // Affiche les caractéristiques des trajets composant le tajet composé
+
+    void Ecrire (std::ofstream &of, const char * msg = "ajouts") const;
+    // Ecrit les caracteristiques d'un trajet composé dans un fichier
 
     ListOrd * getterListeTrajet () const;
     // Méthode permettant d'accéder à l'attribut protégé listeTrajets

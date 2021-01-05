@@ -14,6 +14,7 @@
 #include <iostream>
 using namespace std;
 #include <cstring>
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "TrajetSimple.h"
 //------------------------------------------------------------- Constantes
@@ -34,6 +35,15 @@ void TrajetSimple::Afficher (const char * mess /* = TS*/ ) const
 		cout <<"TS : De " << villeDepart<<" a " << villeArrivee <<" en " << moyenTransport << endl;
 	}
 }//Fin de Afficher
+
+void TrajetSimple::Ecrire (ofstream  &of, const char * msg) const{
+        if (!strcmp("ajouts",msg)){
+                of<< msg <<endl;
+        }
+        of<<villeDepart<<' ';
+        of<<villeArrivee<<' ';
+        of<<moyenTransport<<' '<<endl;
+}//Fin de Ecrire
 
 const char * TrajetSimple::getterMoyenTransport () const {
         return moyenTransport;

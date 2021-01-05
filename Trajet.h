@@ -11,7 +11,7 @@
 #define TRAJET_H
 
 //--------------------------------------------------- Interfaces utilisées
-
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -31,6 +31,9 @@ public:
 
     virtual void Afficher (const char * mess = "T") const = 0;
     // Méthode redéfinie dans les classes filles
+
+    virtual void Ecrire (std::ofstream & of, const char * msg = "ajouts") const=0;
+    // Méthode pour écrire dans un fichier
 
     virtual const char * getterVilleDepart () const;
     // Méthode permettant d'accéder à l'attribut protégé villeDepart

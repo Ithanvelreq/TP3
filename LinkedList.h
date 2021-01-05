@@ -13,6 +13,7 @@
 
 #include "Data.h"
 #include "Trajet.h"
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -35,6 +36,13 @@ public:
 	void Ajouter (const Trajet * unTrajet);
 	//Ajoute unTrajet, pointeur sur un objet de type Trajet dans la liste
 
+    void Ecrire(std::ofstream & of) const;
+    // Ecrit dans un fichier les trajets présents dans la liste
+
+    void Save (std::ofstream & os, const char * typetrajet, const char * vd, const char * va) const;
+	// Ecrit dans un fichier les trajets de la liste qui correspondent aux
+	// données entrées en paramètres 
+	
 	void Afficher(const char * mess = "") const;
 	//Afficher les trajets presents dans la liste
 

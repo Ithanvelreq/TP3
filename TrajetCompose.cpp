@@ -14,6 +14,7 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "TrajetCompose.h"
 #include "ListOrd.h"
@@ -25,7 +26,12 @@ using namespace std;
 
 void TrajetCompose::Afficher (const char * mess /* = "TC"*/) const{
 	listeTrajet->Afficher("TC");
-}//Fin de Afficr
+}//Fin de Afficher
+
+void TrajetCompose::Ecrire (ofstream & of, const char * msg) const{
+        of<<"ajoutc"<<endl;
+        listeTrajet->Ecrire(of);
+}//Fin de Ecrire
 
 ListOrd * TrajetCompose::getterListeTrajet () const {
         return listeTrajet;

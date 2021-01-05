@@ -11,6 +11,7 @@
 #define TRAJETSIMPLE_H
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -32,6 +33,9 @@ public:
     void Afficher (const char * mess = "TS") const;
     // Affiche les caractéristiques d'un trajetSimple (villeDepart, 
     // villeArrivee et moyenTransport)
+
+    void Ecrire (std::ofstream  &of, const char * msg = "ajouts") const;
+    // Ecrit les caractéristiques du trajet simple dans le fichier of
 
     const char * getterMoyenTransport () const;
     // Méthode permettant d'accéder à l'attribut protégé moyenTransport

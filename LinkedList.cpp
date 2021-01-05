@@ -14,7 +14,7 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "LinkedList.h"
 #include "Data.h"
@@ -61,6 +61,47 @@ void LinkedList::Afficher(const char * mess /* = ""*/) const
 		first = 1;
         }
 }//Fin de Afficher
+
+void LinkedList:: Ecrire (ofstream & os) const{
+        Data * c = head;
+        while(c != NULL){
+                const Trajet * tr = c->current;
+                tr->Ecrire(os,"");
+                if(c->next == NULL){
+                        os.seekp(-1,ios::cur);
+                        os<<"fini"<<endl;
+                }else{
+                        os.seekp(-1,ios::cur);
+                        os<<"then"<<endl;
+                }
+                c = c->next;
+        }
+}//Fin de Ecrire
+
+void LinkedList:: Save (ofstream & os, const char * typetrajet, const char * vd, const char * va) const{
+        Data * c = head;
+        while(c != NULL){
+                const Trajet * traj = c->current;
+                Trajet * unTraj = const_cast<Trajet*>(traj);
+                if(!strcmp(typetrajet,"TS")){
+                        if(TrajetSimple * test = dynamic_cast<TrajetSimple*>(unTraj)){
+                                TrajetSimple * trajA = new TrajetSimple(*test);
+                                unTraj = trajA;
+                        }
+                }else if(!strcmp(typetrajet,"TC")){
+                        if(TrajetCompose* test = dynamic_cast<TrajetCompose*>(unTraj)){
+                                TrajetCompose * trajA = new TrajetCompose(*test);
+                                unTraj = trajA;
+                        }
+                }/*else if(!strcmp(typetrajet,"*")){
+                        Trajet * trajA = unTraj;
+                }*/
+                if( (!strcmp(vd,unTraj->getterVilleDepart()) || !strcmp(vd,"*")) && (!strcmp(va,unTraj->getterVilleArrivee()) || !strcmp(va,"*"))){
+                        unTraj->Ecrire(os);
+                }
+                c = c->next;
+        }
+}//Fin de Save
 
 bool LinkedList::operator==(const LinkedList & ll)const
 {
