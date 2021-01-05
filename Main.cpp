@@ -123,7 +123,7 @@ int main(){
 			cin.getline(vaselected, TAILLE);
 			os.open(fichier);
 			if(os.is_open()){
-				catalog.Ecrire(os, typetraj, vdselected, vaselected);
+				catalog.Save(os, typetraj, vdselected, vaselected);
 			}else{
 				cout << "il y a eu une erreur pendant l'ouverture du fichier, veuillez ressayer a nouveau" << endl;
 			}

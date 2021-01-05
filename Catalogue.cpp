@@ -61,9 +61,9 @@ void Catalogue::Afficher() const
 	listeTrajets->Afficher();
 }//Fin de Afficher
 
-void Catalogue::Ecrire(ofstream & os, const char * typetrajet, const char * vd, const char * va) const
+void Catalogue::Save(ofstream & os, const char * typetrajet, const char * vd, const char * va) const
 {
-	listeTrajets ->Ecrire(os, typetrajet, vd, va);
+	listeTrajets ->Save(os, typetrajet, vd, va);
 }//Fin de Ecrire
 
 //-------------------------------------------- Constructeurs - destructeur
