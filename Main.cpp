@@ -18,6 +18,9 @@ int main(){
 	char * typetraj = new char [TAILLE];
 	char * vaselected = new char [TAILLE];
 	char * vdselected = new char [TAILLE];
+	strcpy(typetraj, "empty");
+	strcpy(vaselected, "empty");
+	strcpy(vdselected, "empty");
 	bool load = false;
 	bool addts = true;
 	bool addtc = true;
