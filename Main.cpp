@@ -29,6 +29,8 @@ int main(){
 	ifstream is;
 	ofstream os;
 	Catalogue catalog;
+	cout << "Bienvenu sur l'application de Mdarhri et Velarde"<<endl;
+	cout << "Vous pouvez commencer a saisir vos commandes"<<endl;
 	cin.getline(command, TAILLE);
 	while(strcmp(command, "bye") != 0){
 		if(!strcmp(command, "ajouts")){
