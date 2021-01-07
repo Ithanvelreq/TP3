@@ -133,6 +133,7 @@ int main(){
 				cout << "il y a eu une erreur pendant l'ouverture du fichier, veuillez ressayer a nouveau" << endl;
 			}
 			os.close();
+			cout << "catalogue sauvegarde"<< endl;
 		}
 		if(is.peek() == EOF){
 			load = false;

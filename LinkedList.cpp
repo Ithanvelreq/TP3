@@ -80,26 +80,29 @@ void LinkedList:: Ecrire (ofstream & os) const{
 
 void LinkedList:: Save (ofstream & os, const char * typetrajet, const char * vd, const char * va) const{
         Data * c = head;
+	bool w = false;
         while(c != NULL){
                 const Trajet * traj = c->current;
                 Trajet * unTraj = const_cast<Trajet*>(traj);
-                if(!strcmp(typetrajet,"TS")){
+                if(!strcmp(typetrajet,"TS") || !strcmp(typetrajet, "*")){
                         if(TrajetSimple * test = dynamic_cast<TrajetSimple*>(unTraj)){
                                 TrajetSimple * trajA = new TrajetSimple(*test);
                                 unTraj = trajA;
+				w = true;
                         }
-                }else if(!strcmp(typetrajet,"TC")){
-                        if(TrajetCompose* test = dynamic_cast<TrajetCompose*>(unTraj)){
+                }
+		if(!strcmp(typetrajet,"TC") || !strcmp(typetrajet, "*")){
+                	if(TrajetCompose* test = dynamic_cast<TrajetCompose*>(unTraj)){
                                 TrajetCompose * trajA = new TrajetCompose(*test);
                                 unTraj = trajA;
+				w = true;
                         }
-                }/*else if(!strcmp(typetrajet,"*")){
-                        Trajet * trajA = unTraj;
-                }*/
-                if( (!strcmp(vd,unTraj->getterVilleDepart()) || !strcmp(vd,"*")) && (!strcmp(va,unTraj->getterVilleArrivee()) || !strcmp(va,"*"))){
+                }
+                if( w && (!strcmp(vd,unTraj->getterVilleDepart()) || !strcmp(vd,"*")) && (!strcmp(va,unTraj->getterVilleArrivee()) || !strcmp(va,"*"))){
                         unTraj->Ecrire(os);
                 }
                 c = c->next;
+		w = false;
         }
 }//Fin de Save
 
