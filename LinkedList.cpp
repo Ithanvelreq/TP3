@@ -100,6 +100,7 @@ void LinkedList:: Save (ofstream & os, const char * typetrajet, const char * vd,
                 }
                 if( w && (!strcmp(vd,unTraj->getterVilleDepart()) || !strcmp(vd,"*")) && (!strcmp(va,unTraj->getterVilleArrivee()) || !strcmp(va,"*"))){
                         unTraj->Ecrire(os);
+			delete unTraj;
                 }
                 c = c->next;
 		w = false;
